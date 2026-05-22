@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(.venv/bin/pip install *)",
+      "Bash(.venv/bin/pip list *)",
+      "Bash(npm --version)",
+      "Bash(.venv/bin/python -c ' *)",
+      "Bash(timeout 8 npm run dev)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(kill %1)",
+      "Bash(../.venv/bin/uvicorn main:app --port 8000)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "Bash(curl -s -X POST http://localhost:8000/auth/register -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"username\":\"admin\",\"password\":\"admin1234\",\"full_name\":\"Admin\"}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Register OK, user:', d.get\\('user',{}\\).get\\('username','?'\\), 'token:', d.get\\('access_token','?'\\)[:20]+'...'\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(k,v\\) for k,v in {**d.get\\('dependencies',{}\\),**d.get\\('devDependencies',{}\\)}.items\\(\\)]\")",
+      "Bash(curl -s http://localhost:8000/analytics/dashboard -H \"Authorization: Bearer test\")",
+      "Bash(curl -s http://localhost:8000/campaigns/ -H \"Authorization: Bearer test\")",
+      "Bash(pkill -f \"uvicorn main:app\")",
+      "Bash(pg_isready)",
+      "Bash(psql -U kuro -d kurofunnels -c \"SELECT 1\")",
+      "Bash(sqlite3 /Users/zogha/Downloads/kuro-funnels/backend/kurofunnels.db \".tables\")",
+      "Bash(sqlite3 /Users/zogha/Downloads/kuro-funnels/backend/kurofunnels.db \"SELECT id, email, username, role, is_active, hashed_password FROM users LIMIT 5;\")",
+      "Bash(curl -s -X POST http://localhost:8000/api/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"admin123\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"admin123\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"admin\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"password\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"Admin123\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/register -H 'Content-Type: application/json' -d '{\"email\":\"test99@test.com\",\"username\":\"test99\",\"password\":\"Test1234!\",\"full_name\":\"Test User\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"test99@test.com\",\"password\":\"Test1234!\"}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('LOGIN OK - token:', d.get\\('access_token',''\\)[:30]+'...'\\)\")",
+      "Bash(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"Admin1234!\"}')",
+      "Bash(python3 -c \"import redis; r = redis.Redis\\(\\); r.ping\\(\\)\")",
+      "Bash(curl -s http://localhost:8000/smtp/ -H \"Authorization: Bearer $\\(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"Admin1234!\"}')",
+      "Bash(pkill -f \"uvicorn main\")",
+      "Bash(python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload)",
+      "Bash(sqlite3 /Users/zogha/Downloads/kuro-funnels/backend/kurofunnels.db \"DELETE FROM email_queue; DELETE FROM send_logs; DELETE FROM analytics; DELETE FROM campaigns; DELETE FROM contacts; DELETE FROM contact_lists; DELETE FROM smtps; SELECT 'cleaned';\")",
+      "Bash(curl -s http://localhost:8000/campaigns/ -H \"Authorization: Bearer $\\(curl -s -X POST http://localhost:8000/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@kuro.dev\",\"password\":\"Admin1234!\"}')",
+      "Read(//Users/zogha/Downloads/payment-mailer-pro/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/zogha/Downloads/payment-mailer-pro/includes",
+      "/Users/zogha/Downloads/payment-mailer-pro/assets"
+    ]
+  }
+}

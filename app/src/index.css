@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* ── Backgrounds ── */
+    --bg-base:    #0B1020;
+    --bg-card:    #162033;
+    --bg-surface: #121A2B;
+    --bg-raised:  #1B2A42;
+    --bg-hover:   rgba(255,255,255,0.04);
+
+    /* ── Borders ── */
+    --border:     rgba(255,255,255,0.07);
+    --border-md:  rgba(255,255,255,0.11);
+    --border-focus: #3B82F6;
+
+    /* ── Text ── */
+    --text:       #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim:   #64748B;
+
+    /* ── Accent ── */
+    --accent:     #3B82F6;
+    --accent-bg:  rgba(59,130,246,0.12);
+    --accent-border: rgba(59,130,246,0.25);
+    --purple:     #8B5CF6;
+    --purple-bg:  rgba(139,92,246,0.12);
+    --purple-border: rgba(139,92,246,0.25);
+
+    /* ── Semantic ── */
+    --success:    #10B981;
+    --success-bg: rgba(16,185,129,0.12);
+    --warning:    #F59E0B;
+    --warning-bg: rgba(245,158,11,0.12);
+    --danger:     #EF4444;
+    --danger-bg:  rgba(239,68,68,0.12);
+
+    /* ── Shadows ── */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.25);
+    --shadow-lg: 0 20px 50px rgba(0,0,0,0.55), 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-base);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02','cv03','cv04','cv11';
+  }
+
+  #root { width: 100%; min-height: 100vh; }
+
+  ::selection {
+    background: rgba(59,130,246,0.3);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Reset inputs */
+  input, textarea, select, button {
+    font-family: inherit;
+    font-size: inherit;
+  }
+}
+
+@layer utilities {
+  /* ──────────────────────────────
+     Scrollbar
+  ────────────────────────────── */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+
+  /* ──────────────────────────────
+     Card surface
+  ────────────────────────────── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-hover {
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card-hover:hover {
+    border-color: var(--border-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ──────────────────────────────
+     Input base
+  ────────────────────────────── */
+  .input-base {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 0 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 13px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .input-base:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+  }
+  .input-base::placeholder {
+    color: var(--text-dim);
+  }
+  .input-base:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  select.input-base {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+  }
+  textarea.input-base { height: auto; padding: 8px 12px; resize: vertical; }
+
+  /* ──────────────────────────────
+     Modal / Overlay
+  ────────────────────────────── */
+  .modal-overlay { animation: overlayIn 0.15s ease; }
+  .modal-content { animation: modalIn 0.2s cubic-bezier(0.16,1,0.3,1); }
+
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ──────────────────────────────
+     Page transition
+  ────────────────────────────── */
+  .page-enter {
+    animation: pageIn 0.25s ease;
+  }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ──────────────────────────────
+     Status dots
+  ────────────────────────────── */
+  .dot-active {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse-green 2.5s infinite;
+    flex-shrink: 0;
+  }
+  .dot-error {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--danger);
+    flex-shrink: 0;
+  }
+  .dot-warning {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--warning);
+    flex-shrink: 0;
+  }
+  .dot-pending {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse-blue 2.5s infinite;
+    flex-shrink: 0;
+  }
+  .dot-paused { composes: dot-warning; }
+
+  @keyframes pulse-green {
+    0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+    50%      { box-shadow: 0 0 0 4px rgba(16,185,129,0); }
+  }
+  @keyframes pulse-blue {
+    0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.5); }
+    50%      { box-shadow: 0 0 0 4px rgba(59,130,246,0); }
+  }
+
+  /* ──────────────────────────────
+     Skeleton loader
+  ────────────────────────────── */
+  .skeleton {
+    background: linear-gradient(90deg, #1B2A42 25%, #243350 50%, #1B2A42 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite;
+    border-radius: 6px;
+  }
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to   { background-position: -200% 0; }
+  }
+
+  /* ──────────────────────────────
+     Auth page animated background
+  ────────────────────────────── */
+  .auth-bg {
+    background: radial-gradient(ellipse 80% 60% at 20% -10%, rgba(59,130,246,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 110%, rgba(139,92,246,0.10) 0%, transparent 55%),
+                var(--bg-base);
+  }
+
+  .auth-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* ──────────────────────────────
+     Table styles
+  ────────────────────────────── */
+  .tbl-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .tbl-head {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .tbl-head th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .tbl-row {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.1s;
+  }
+  .tbl-row:last-child { border-bottom: none; }
+  .tbl-row:hover { background: rgba(255,255,255,0.025); }
+  .tbl-row td { padding: 12px 16px; }
+
+  /* ──────────────────────────────
+     Glow effects
+  ────────────────────────────── */
+  .glow-blue  { box-shadow: 0 0 20px rgba(59,130,246,0.25); }
+  .glow-purple{ box-shadow: 0 0 20px rgba(139,92,246,0.25); }
+  .glow-green { box-shadow: 0 0 20px rgba(16,185,129,0.2); }
+}
