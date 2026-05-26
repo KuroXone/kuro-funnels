@@ -7,12 +7,12 @@ export default function ReputationBar({ score = 100, showLabel = true }) {
     <div className="w-full">
       {showLabel && (
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-[11px] text-[#64748B]">Reputation</span>
+          <span className="text-[11px] text-slate-500">Reputation</span>
           <span className="text-[11px] font-semibold" style={{ color }}>{pct.toFixed(0)} — {label}</span>
         </div>
       )}
       <div className="w-full rounded-full h-1.5 overflow-hidden"
-        style={{ background: 'rgba(255,255,255,0.08)' }}>
+        style={{ background: 'rgba(0,0,0,0.08)' }}>
         <div
           className="h-full rounded-full transition-all duration-700"
           style={{ width: `${pct}%`, background: color }}

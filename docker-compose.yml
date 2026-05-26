@@ -108,7 +108,7 @@ services:
       - "5555:5555"
     command: celery -A app.workers.celery_app flower --port=5555
 
-  # React frontend
+  # React frontend (served via nginx reverse proxy — not exposed directly)
   frontend:
     build:
       context: ./app
@@ -116,8 +116,6 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-    ports:
-      - "3000:80"
 
   # Nginx reverse proxy
   nginx:

@@ -12,12 +12,12 @@ import useAppStore from '../store/appStore'
 import { analyticsAPI, campaignsAPI } from '../services/api'
 
 const TT = {
-  backgroundColor: '#1B2A42',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: '#FFFFFF',
+  border: '1px solid rgba(0,0,0,0.10)',
   borderRadius: '10px',
-  color: '#F8FAFC',
+  color: '#0F172A',
   fontSize: 12,
-  boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.10)',
   padding: '8px 12px',
 }
 
@@ -118,7 +118,7 @@ export default function Analytics() {
           {!selectedCampaign && (
             <div
               className="flex items-center gap-0.5 p-1 rounded-lg ml-auto"
-              style={{ background: '#121A2B', border: '1px solid rgba(255,255,255,0.07)' }}
+              style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}
             >
               {[7, 14, 30, 90].map((d) => (
                 <button
@@ -127,7 +127,7 @@ export default function Analytics() {
                   className="px-3 py-1.5 rounded-md text-[12px] font-medium transition-all"
                   style={days === d
                     ? { background: '#3B82F6', color: '#fff' }
-                    : { color: '#64748B' }
+                    : { color: '#475569' }
                   }
                   onMouseEnter={(e) => { if (days !== d) e.currentTarget.style.color = '#94A3B8' }}
                   onMouseLeave={(e) => { if (days !== d) e.currentTarget.style.color = '#64748B' }}
@@ -157,8 +157,8 @@ export default function Analytics() {
               <>
                 <div className="flex items-center justify-between mb-5">
                   <div>
-                    <h3 className="text-[#F8FAFC] font-semibold text-[14px]">Email Timeline</h3>
-                    <p className="text-[#64748B] text-xs mt-0.5">Daily send volume</p>
+                    <h3 className="text-slate-800 font-semibold text-[14px]">Email Timeline</h3>
+                    <p className="text-slate-500 text-xs mt-0.5">Daily send volume</p>
                   </div>
                 </div>
                 {loading ? (
@@ -174,10 +174,10 @@ export default function Analytics() {
                           <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
                       <XAxis dataKey="date" tick={{ fill: '#64748B', fontSize: 10 }} tickLine={false} axisLine={false} />
                       <YAxis tick={{ fill: '#64748B', fontSize: 10 }} tickLine={false} axisLine={false} />
-                      <Tooltip contentStyle={TT} labelStyle={{ color: '#94A3B8', fontSize: 11 }} />
+                      <Tooltip contentStyle={TT} labelStyle={{ color: '#475569', fontSize: 11 }} />
                       <Area type="monotone" dataKey="sent" stroke="#8B5CF6" strokeWidth={2}
                         fill="url(#purpleGrad)" dot={false} name="Sent" />
                     </AreaChart>
@@ -186,7 +186,7 @@ export default function Analytics() {
               </>
             ) : cs ? (
               <>
-                <h3 className="text-[#F8FAFC] font-semibold text-[14px] mb-4">Campaign Breakdown</h3>
+                <h3 className="text-slate-800 font-semibold text-[14px] mb-4">Campaign Breakdown</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
                     { label: 'Sent',          value: cs.total_sent?.toLocaleString()         ?? '—', color: '#3B82F6' },
@@ -196,18 +196,18 @@ export default function Analytics() {
                     { label: 'Bounced',       value: cs.total_bounces?.toLocaleString()      ?? '—', color: '#EF4444' },
                     { label: 'Unsubscribed',  value: cs.total_unsubscribes?.toLocaleString() ?? '—', color: '#F59E0B' },
                     { label: 'Failed',        value: cs.total_failed?.toLocaleString()       ?? '—', color: '#DC2626' },
-                    { label: 'SMTP Used',     value: cs.smtp_servers_used                   ?? '—', color: '#94A3B8' },
+                    { label: 'SMTP Used',     value: cs.smtp_servers_used                   ?? '—', color: '#475569' },
                   ].map(({ label, value, color }) => (
                     <div key={label} className="rounded-xl p-3.5"
-                      style={{ background: '#121A2B', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}>
                       <p className="text-[20px] font-bold leading-none" style={{ color }}>{value}</p>
-                      <p className="text-[11px] text-[#64748B] mt-1.5">{label}</p>
+                      <p className="text-[11px] text-slate-500 mt-1.5">{label}</p>
                     </div>
                   ))}
                 </div>
               </>
             ) : (
-              <div className="flex items-center justify-center h-40 text-[#64748B] text-sm">
+              <div className="flex items-center justify-center h-40 text-slate-500 text-sm">
                 Loading campaign data…
               </div>
             )}
@@ -215,13 +215,13 @@ export default function Analytics() {
 
           {/* Engagement bar chart */}
           <div className="card p-5">
-            <h3 className="text-[#F8FAFC] font-semibold text-[14px] mb-0.5">Engagement Rates</h3>
-            <p className="text-[#64748B] text-xs mb-4">
+            <h3 className="text-slate-800 font-semibold text-[14px] mb-0.5">Engagement Rates</h3>
+            <p className="text-slate-500 text-xs mb-4">
               {selectedCampaign ? 'Selected campaign' : 'Overall platform'}
             </p>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={engagementData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
                 <XAxis dataKey="label" tick={{ fill: '#64748B', fontSize: 9 }} tickLine={false} axisLine={false} />
                 <YAxis tick={{ fill: '#64748B', fontSize: 10 }} tickLine={false} axisLine={false} unit="%" domain={[0, 100]} />
                 <Tooltip contentStyle={TT} formatter={(v) => [`${v}%`]} />
@@ -237,8 +237,8 @@ export default function Analytics() {
         <div className="card p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="text-[#F8FAFC] font-semibold text-[14px]">Delivery Rate</h3>
-              <p className="text-[#64748B] text-xs mt-0.5">
+              <h3 className="text-slate-800 font-semibold text-[14px]">Delivery Rate</h3>
+              <p className="text-slate-500 text-xs mt-0.5">
                 {selectedCampaign ? 'For selected campaign' : 'Overall across all campaigns'}
               </p>
             </div>
@@ -249,7 +249,7 @@ export default function Analytics() {
               {rate}%
             </span>
           </div>
-          <div className="w-full rounded-full h-2 overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
+          <div className="w-full rounded-full h-2 overflow-hidden" style={{ background: 'rgba(0,0,0,0.08)' }}>
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
@@ -258,7 +258,7 @@ export default function Analytics() {
               }}
             />
           </div>
-          <div className="flex justify-between mt-1.5 text-[10px] text-[#4E637A]">
+          <div className="flex justify-between mt-1.5 text-[10px] text-slate-400">
             <span>0%</span>
             <span>Target: ≥95%</span>
             <span>100%</span>

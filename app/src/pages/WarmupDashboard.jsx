@@ -19,7 +19,7 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
   const sentPct = item.daily_limit > 0 ? Math.min(100, (item.sent_today / item.daily_limit) * 100) : 0
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 space-y-4">
+    <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
@@ -27,8 +27,8 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
             <Zap size={17} className="text-orange-400" />
           </div>
           <div>
-            <p className="text-white font-semibold">{item.domain}</p>
-            <p className="text-gray-500 text-xs mt-0.5">
+            <p className="text-slate-800 font-semibold">{item.domain}</p>
+            <p className="text-slate-500 text-xs mt-0.5">
               {isComplete ? 'Warmup complete ✓' : item.warmup_enabled ? `Day ${item.current_day} of ${item.schedule.length}` : 'Not started'}
             </p>
           </div>
@@ -38,7 +38,7 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
             <button
               onClick={() => onAdvance(item.domain_id)}
               disabled={advancing}
-              className="p-1.5 text-gray-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all"
+              className="p-1.5 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all"
               title="Manually advance one day"
             >
               {advancing ? <LoadingSpinner size="sm" /> : <SkipForward size={14} />}
@@ -57,11 +57,11 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
 
       {/* Overall progress */}
       <div>
-        <div className="flex justify-between text-xs text-gray-500 mb-1.5">
+        <div className="flex justify-between text-xs text-slate-500 mb-1.5">
           <span>Warmup progress</span>
           <span>{item.pct_complete}% complete</span>
         </div>
-        <div className="w-full bg-gray-800 rounded-full h-2">
+        <div className="w-full bg-slate-100 rounded-full h-2">
           <div
             className={`h-2 rounded-full transition-all duration-700 ${isComplete ? 'bg-green-500' : 'bg-orange-500'}`}
             style={{ width: `${item.pct_complete}%` }}
@@ -72,11 +72,11 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
       {/* Today's usage */}
       {item.warmup_enabled && !isComplete && (
         <div>
-          <div className="flex justify-between text-xs text-gray-500 mb-1.5">
+          <div className="flex justify-between text-xs text-slate-500 mb-1.5">
             <span>Today's sends</span>
             <span>{item.sent_today} / {item.daily_limit?.toLocaleString()}</span>
           </div>
-          <div className="w-full bg-gray-800 rounded-full h-1.5">
+          <div className="w-full bg-slate-100 rounded-full h-1.5">
             <div
               className="h-1.5 rounded-full transition-all duration-500 bg-violet-500"
               style={{ width: `${sentPct}%` }}
@@ -101,7 +101,7 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
                 className="flex-1 rounded-sm transition-all"
                 style={{
                   height: `${h}px`,
-                  backgroundColor: isPast ? '#22c55e' : isCurrent ? '#f97316' : '#1f2937',
+                  backgroundColor: isPast ? '#22c55e' : isCurrent ? '#f97316' : '#e2e8f0',
                   border: isCurrent ? '1px solid #f97316' : 'none',
                 }}
               />
@@ -115,7 +115,7 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-gray-800">
+      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200">
         <div className="text-center">
           <p className="text-sm font-bold text-orange-400">{item.daily_limit?.toLocaleString() || '—'}</p>
           <p className="text-xs text-gray-600">Daily limit</p>
@@ -125,7 +125,7 @@ function WarmupCard({ item, onToggle, onAdvance, toggling, advancing }) {
           <p className="text-xs text-gray-600">Current day</p>
         </div>
         <div className="text-center">
-          <p className="text-sm font-bold text-gray-400">{14 - (item.current_day || 0)}</p>
+          <p className="text-sm font-bold text-slate-500">{14 - (item.current_day || 0)}</p>
           <p className="text-xs text-gray-600">Days left</p>
         </div>
       </div>
@@ -198,13 +198,13 @@ export default function WarmupDashboard() {
         {warmupData.length > 0 && (
           <div className="grid grid-cols-3 gap-4">
             {[
-              { label: 'Total Domains', value: warmupData.length, color: 'text-gray-300' },
+              { label: 'Total Domains', value: warmupData.length, color: 'text-slate-700' },
               { label: 'Actively Warming', value: active.length, color: 'text-orange-400' },
               { label: 'Warmup Complete', value: complete.length, color: 'text-green-400' },
             ].map(({ label, value, color }) => (
-              <div key={label} className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
+              <div key={label} className="bg-white border border-slate-200 rounded-xl p-4 text-center">
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-gray-500 text-xs mt-0.5">{label}</p>
+                <p className="text-slate-500 text-xs mt-0.5">{label}</p>
               </div>
             ))}
           </div>
@@ -212,8 +212,8 @@ export default function WarmupDashboard() {
 
         {/* Warmup schedule reference */}
         {schedule.length > 0 && (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-            <h3 className="text-white font-semibold mb-4">Standard Warmup Schedule</h3>
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
+            <h3 className="text-slate-800 font-semibold mb-4">Standard Warmup Schedule</h3>
             <div className="grid grid-cols-7 gap-2">
               {schedule.map((slot) => (
                 <div key={slot.day} className="text-center">

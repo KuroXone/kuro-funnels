@@ -17,7 +17,7 @@ import { contactsAPI } from '../services/api'
 
 const PAGE_SIZE = 50
 
-const BORDER = '1px solid rgba(255,255,255,0.07)'
+const BORDER = '1px solid rgba(0,0,0,0.08)'
 
 export default function Contacts() {
   const { contactLists, contactListsLoading, fetchContactLists } = useAppStore()
@@ -132,7 +132,7 @@ export default function Contacts() {
 
           {/* Lists panel */}
           <div className="lg:col-span-1">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-[#4E637A] mb-3">Lists</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Lists</p>
             {contactListsLoading ? <PageLoader /> : contactLists.length === 0 ? (
               <EmptyState icon={Users} title="No lists yet"
                 description="Create a contact list to organize your recipients"
@@ -148,7 +148,7 @@ export default function Contacts() {
                       onClick={() => selectList(list)}
                       className="flex items-center justify-between px-3.5 py-3 rounded-xl cursor-pointer transition-all"
                       style={{
-                        background: active ? 'rgba(59,130,246,0.1)' : '#162033',
+                        background: active ? 'rgba(59,130,246,0.08)' : '#FAFBFD',
                         border: active ? '1px solid rgba(59,130,246,0.25)' : BORDER,
                       }}
                     >
@@ -156,8 +156,8 @@ export default function Contacts() {
                         <div
                           className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
                           style={{
-                            background: active ? 'rgba(59,130,246,0.2)' : 'rgba(255,255,255,0.06)',
-                            border: active ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(255,255,255,0.1)',
+                            background: active ? 'rgba(59,130,246,0.2)' : 'rgba(0,0,0,0.06)',
+                            border: active ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(0,0,0,0.10)',
                           }}
                         >
                           <Users size={13} style={{ color: active ? '#3B82F6' : '#64748B' }} />
@@ -166,7 +166,7 @@ export default function Contacts() {
                           <p className="text-[13px] font-medium truncate" style={{ color: active ? '#F8FAFC' : '#94A3B8' }}>
                             {list.name}
                           </p>
-                          <p className="text-[11px] text-[#64748B]">
+                          <p className="text-[11px] text-slate-500">
                             {(list.contact_count || 0).toLocaleString()} contacts
                           </p>
                         </div>
@@ -174,7 +174,7 @@ export default function Contacts() {
                       <div className="flex items-center gap-1 flex-shrink-0">
                         <button
                           onClick={(e) => { e.stopPropagation(); setDeleteListId(list.id) }}
-                          className="w-6 h-6 flex items-center justify-center rounded-lg text-[#4E637A] hover:text-red-400 hover:bg-red-500/10 transition-all"
+                          className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
                         >
                           <Trash2 size={12} />
                         </button>
@@ -193,16 +193,16 @@ export default function Contacts() {
               <>
                 <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
                   <div>
-                    <h2 className="text-[#F8FAFC] font-semibold text-[14px]">{selectedList.name}</h2>
-                    <p className="text-[#64748B] text-xs mt-0.5">{contactsTotal.toLocaleString()} contacts</p>
+                    <h2 className="text-slate-800 font-semibold text-[14px]">{selectedList.name}</h2>
+                    <p className="text-slate-500 text-xs mt-0.5">{contactsTotal.toLocaleString()} contacts</p>
                   </div>
                   <div className="flex items-center gap-2 flex-wrap">
                     <SearchInput value={contactSearch} onChange={setContactSearch} placeholder="Search…" className="w-44" />
                     <label
                       className={`flex items-center gap-1.5 cursor-pointer px-3 h-9 rounded-lg text-[13px] font-medium transition-all ${importing ? 'opacity-50' : ''}`}
-                      style={{ background: '#1B2A42', border: BORDER, color: '#94A3B8' }}
-                      onMouseEnter={(e) => { if (!importing) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)' }}
+                      style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)', color: '#475569' }}
+                      onMouseEnter={(e) => { if (!importing) e.currentTarget.style.borderColor = 'rgba(0,0,0,0.14)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)' }}
                     >
                       {importing ? <LoadingSpinner size="sm" /> : <Upload size={13} />}
                       Import CSV
@@ -231,8 +231,8 @@ export default function Contacts() {
                       <tbody>
                         {contacts.map((c) => (
                           <tr key={c.id} className="tbl-row">
-                            <td className="text-[#F8FAFC] text-[13px]">{c.email}</td>
-                            <td className="text-[#94A3B8] text-[13px]">
+                            <td className="text-slate-800 text-[13px]">{c.email}</td>
+                            <td className="text-slate-500 text-[13px]">
                               {[c.first_name, c.last_name].filter(Boolean).join(' ') || '—'}
                             </td>
                             <td>
@@ -244,7 +244,7 @@ export default function Contacts() {
                             <td className="text-right">
                               <button
                                 onClick={() => setDeleteContactId(c.id)}
-                                className="w-6 h-6 flex items-center justify-center rounded-lg ml-auto text-[#4E637A] hover:text-red-400 hover:bg-red-500/10 transition-all"
+                                className="w-6 h-6 flex items-center justify-center rounded-lg ml-auto text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
                               >
                                 <Trash2 size={12} />
                               </button>
@@ -263,11 +263,11 @@ export default function Contacts() {
             ) : (
               <div className="card flex flex-col items-center justify-center py-20 text-center">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: BORDER }}>
-                  <Users size={22} className="text-[#4E637A]" />
+                  style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)' }}>
+                  <Users size={22} className="text-slate-400" />
                 </div>
-                <p className="text-[#94A3B8] font-semibold text-[14px]">Select a list</p>
-                <p className="text-[#4E637A] text-sm mt-1">Choose a contact list from the left panel</p>
+                <p className="text-slate-500 font-semibold text-[14px]">Select a list</p>
+                <p className="text-slate-400 text-sm mt-1">Choose a contact list from the left panel</p>
               </div>
             )}
           </div>
@@ -278,11 +278,11 @@ export default function Contacts() {
       <Modal isOpen={showListModal} onClose={() => setShowListModal(false)} title="Create Contact List" size="sm">
         <form onSubmit={createList} className="space-y-4">
           <div>
-            <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">List Name <span className="text-red-400">*</span></label>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">List Name <span className="text-red-400">*</span></label>
             <input value={listForm.name} onChange={(e) => setListForm({ ...listForm, name: e.target.value })} required placeholder="Newsletter Subscribers" className="input-base" />
           </div>
           <div>
-            <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">Description</label>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Description</label>
             <input value={listForm.description} onChange={(e) => setListForm({ ...listForm, description: e.target.value })} placeholder="Optional description" className="input-base" />
           </div>
           <div className="flex gap-3 pt-1">
@@ -302,7 +302,7 @@ export default function Contacts() {
             ['Phone',      'phone',      'tel',   '+1234567890',         false],
           ].map(([label, name, type, placeholder, req]) => (
             <div key={name}>
-              <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
                 {label} {req && <span className="text-red-400">*</span>}
               </label>
               <input

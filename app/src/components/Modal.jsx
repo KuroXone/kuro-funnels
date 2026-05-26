@@ -24,28 +24,27 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md', d
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
       <div
         className="absolute inset-0"
-        style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)' }}
+        style={{ background: 'rgba(15,23,42,0.35)', backdropFilter: 'blur(4px)' }}
         onClick={onClose}
       />
       <div className={`relative w-full ${SIZES[size] || SIZES.md} modal-content`}>
         <div
           className="rounded-2xl overflow-hidden"
           style={{
-            background: '#162033',
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
+            background: '#FFFFFF',
+            border: '1px solid rgba(0,0,0,0.10)',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08)',
           }}
         >
           {/* Header */}
-          <div className="flex items-start justify-between px-6 py-5"
-            style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="flex items-start justify-between px-6 py-5" style={{ borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
             <div>
-              <h2 className="text-[#F8FAFC] font-semibold text-[15px] leading-none">{title}</h2>
-              {description && <p className="text-[#64748B] text-xs mt-1.5 leading-relaxed">{description}</p>}
+              <h2 className="text-slate-800 font-semibold text-[15px] leading-none">{title}</h2>
+              {description && <p className="text-slate-500 text-xs mt-1.5 leading-relaxed">{description}</p>}
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-[#64748B] hover:text-[#F8FAFC] hover:bg-white/8 transition-all ml-3 flex-shrink-0"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all ml-3 flex-shrink-0"
             >
               <X size={15} />
             </button>

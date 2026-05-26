@@ -18,12 +18,12 @@ import { analyticsAPI, campaignsAPI } from '../services/api'
 const DONUT_COLORS = ['#3B82F6', '#10B981', '#EF4444', '#F59E0B']
 
 const TOOLTIP_STYLE = {
-  backgroundColor: '#1B2A42',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: '#FFFFFF',
+  border: '1px solid rgba(0,0,0,0.10)',
   borderRadius: '10px',
-  color: '#F8FAFC',
+  color: '#0F172A',
   fontSize: 12,
-  boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
   padding: '8px 12px',
 }
 
@@ -118,31 +118,31 @@ export default function Dashboard() {
           <div className="xl:col-span-2 card p-5">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h3 className="text-[#F8FAFC] font-semibold text-[14px]">Email Activity</h3>
-                <p className="text-[#64748B] text-xs mt-0.5">Sent emails — last 30 days</p>
+                <h3 className="text-slate-800 font-semibold text-[14px]">Email Activity</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Sent emails — last 30 days</p>
               </div>
-              <span className="flex items-center gap-1.5 text-[11px] font-medium" style={{ color: '#10B981' }}>
+              <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-600">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live
               </span>
             </div>
             {timelineLoading ? (
               <div className="h-52 flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-white/10 border-t-blue-500 rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin" />
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={200}>
                 <AreaChart data={timeline} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor="#3B82F6" stopOpacity={0.25} />
+                      <stop offset="5%"  stopColor="#3B82F6" stopOpacity={0.18} />
                       <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                  <XAxis dataKey="date" tick={{ fill: '#64748B', fontSize: 10 }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fill: '#64748B', fontSize: 10 }} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} labelStyle={{ color: '#94A3B8', fontSize: 11 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
+                  <XAxis dataKey="date" tick={{ fill: '#94A3B8', fontSize: 10 }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fill: '#94A3B8', fontSize: 10 }} tickLine={false} axisLine={false} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} labelStyle={{ color: '#475569', fontSize: 11 }} />
                   <Area type="monotone" dataKey="sent" stroke="#3B82F6" strokeWidth={2}
                     fill="url(#blueGrad)" dot={false} name="Sent" />
                 </AreaChart>
@@ -152,15 +152,15 @@ export default function Dashboard() {
 
           {/* Donut */}
           <div className="card p-5">
-            <h3 className="text-[#F8FAFC] font-semibold text-[14px] mb-0.5">Engagement</h3>
-            <p className="text-[#64748B] text-xs mb-4">Opens, clicks & bounces</p>
+            <h3 className="text-slate-800 font-semibold text-[14px] mb-0.5">Engagement</h3>
+            <p className="text-slate-500 text-xs mb-4">Opens, clicks & bounces</p>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie data={pieData} cx="50%" cy="50%" innerRadius={54} outerRadius={78} paddingAngle={3} dataKey="value">
                   {pieData.map((_, i) => <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} />)}
                 </Pie>
                 <Tooltip contentStyle={TOOLTIP_STYLE} />
-                <Legend wrapperStyle={{ fontSize: 11, color: '#64748B' }} />
+                <Legend wrapperStyle={{ fontSize: 11, color: '#475569' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -170,8 +170,8 @@ export default function Dashboard() {
         <div className="card p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="text-[#F8FAFC] font-semibold text-[14px]">Delivery Health</h3>
-              <p className="text-[#64748B] text-xs mt-0.5">Overall email delivery success rate</p>
+              <h3 className="text-slate-800 font-semibold text-[14px]">Delivery Health</h3>
+              <p className="text-slate-500 text-xs mt-0.5">Overall email delivery success rate</p>
             </div>
             <span
               className="text-[22px] font-bold"
@@ -180,7 +180,7 @@ export default function Dashboard() {
               {rate}%
             </span>
           </div>
-          <div className="w-full rounded-full h-2 overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
+          <div className="w-full rounded-full h-2 overflow-hidden bg-slate-100">
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
@@ -189,7 +189,7 @@ export default function Dashboard() {
               }}
             />
           </div>
-          <div className="flex justify-between mt-1.5 text-[10px] text-[#4E637A]">
+          <div className="flex justify-between mt-1.5 text-[10px] text-slate-400">
             <span>0%</span><span>Target: 95%+</span><span>100%</span>
           </div>
         </div>
@@ -197,8 +197,8 @@ export default function Dashboard() {
         {/* Recent campaigns */}
         {recentCampaigns.length > 0 && (
           <div className="tbl-wrap">
-            <div className="px-5 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-              <h3 className="text-[#F8FAFC] font-semibold text-[14px]">Recent Campaigns</h3>
+            <div className="px-5 py-3.5" style={{ borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+              <h3 className="text-slate-800 font-semibold text-[14px]">Recent Campaigns</h3>
             </div>
             <table className="w-full">
               <thead className="tbl-head">
@@ -212,12 +212,12 @@ export default function Dashboard() {
                 {recentCampaigns.map((c) => (
                   <tr key={c.id} className="tbl-row">
                     <td>
-                      <p className="text-[#F8FAFC] text-sm font-medium">{c.name}</p>
-                      <p className="text-[#64748B] text-xs truncate max-w-[240px]">{c.subject}</p>
+                      <p className="text-slate-800 text-sm font-medium">{c.name}</p>
+                      <p className="text-slate-400 text-xs truncate max-w-[240px]">{c.subject}</p>
                     </td>
                     <td><Badge status={c.status} /></td>
-                    <td className="text-[#94A3B8] text-sm">{(c.total_recipients || 0).toLocaleString()}</td>
-                    <td className="text-[#64748B] text-xs">{new Date(c.created_at).toLocaleDateString()}</td>
+                    <td className="text-slate-500 text-sm">{(c.total_recipients || 0).toLocaleString()}</td>
+                    <td className="text-slate-400 text-xs">{new Date(c.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>

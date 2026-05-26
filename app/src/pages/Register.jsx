@@ -13,8 +13,10 @@ const PERKS = [
 ]
 
 export default function Register() {
-  const [form, setForm] = useState({ email: '', username: '', password: '', full_name: '' })
+  const [form, setForm] = useState({ email: '', username: '', password: '', confirm_password: '', full_name: '' })
   const [showPass, setShowPass] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [loading, setLoading] = useState(false)
   const { register } = useAuthStore()
   const navigate = useNavigate()
@@ -22,13 +24,21 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (form.password.length < 8) return toast.error('Password must be at least 8 characters')
+    if (form.password !== form.confirm_password) return toast.error('Passwords do not match')
+    if (!agreedToTerms) return toast.error('You must agree to the Terms of Service')
     setLoading(true)
     try {
-      await register(form)
+      const { confirm_password, ...payload } = form
+      await register(payload)
       toast.success('Account created!')
       navigate('/dashboard')
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Registration failed')
+      const detail = err.response?.data?.detail
+      if (Array.isArray(detail)) {
+        toast.error(detail.map((d) => d.msg).join(', '))
+      } else {
+        toast.error(detail || 'Registration failed. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
@@ -36,11 +46,10 @@ export default function Register() {
 
   return (
     <div className="min-h-screen auth-bg auth-grid flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Orbs */}
       <div className="absolute top-[-150px] right-[-150px] w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 65%)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%)' }} />
       <div className="absolute bottom-[-200px] left-[-100px] w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.09) 0%, transparent 65%)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 65%)' }} />
 
       <div className="relative w-full max-w-[420px]">
         {/* Brand */}
@@ -53,23 +62,22 @@ export default function Register() {
               <Zap size={18} className="text-white" />
             </div>
             <div className="leading-none text-left">
-              <p className="text-white font-bold text-[14px] tracking-widest">KURO</p>
-              <p className="text-[10px] font-semibold tracking-widest" style={{ color: '#3B82F6' }}>FUNNELS</p>
+              <p className="text-slate-800 font-bold text-[14px] tracking-widest">KURO</p>
+              <p className="text-[10px] font-semibold tracking-widest text-blue-500">FUNNELS</p>
             </div>
           </div>
-          <h1 className="text-[24px] font-bold text-white leading-tight mb-1.5">Create your account</h1>
-          <p className="text-[#64748B] text-sm">Start sending smarter emails today</p>
+          <h1 className="text-[24px] font-bold text-slate-800 leading-tight mb-1.5">Create your account</h1>
+          <p className="text-slate-500 text-sm">Start sending smarter emails today</p>
         </div>
 
         {/* Perks */}
         <div className="grid grid-cols-2 gap-2 mb-6">
           {PERKS.map((perk) => (
             <div key={perk} className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: 'rgba(16,185,129,0.15)' }}>
-                <Check size={9} className="text-emerald-400" />
+              <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 bg-emerald-100">
+                <Check size={9} className="text-emerald-600" />
               </div>
-              <span className="text-[11px] text-[#64748B]">{perk}</span>
+              <span className="text-[11px] text-slate-500">{perk}</span>
             </div>
           ))}
         </div>
@@ -78,18 +86,17 @@ export default function Register() {
         <div
           className="rounded-2xl p-7"
           style={{
-            background: '#162033',
-            border: '1px solid rgba(255,255,255,0.09)',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+            background: '#FFFFFF',
+            border: '1px solid rgba(0,0,0,0.09)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.10)',
           }}
         >
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[#64748B] mb-1.5 uppercase tracking-wide">Full Name</label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Full Name</label>
                 <div className="relative">
-                  <User size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4E637A]" />
+                  <User size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
                     type="text"
                     value={form.full_name}
@@ -100,9 +107,11 @@ export default function Register() {
                 </div>
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[#64748B] mb-1.5 uppercase tracking-wide">Username <span className="text-red-400">*</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  Username <span className="text-red-400">*</span>
+                </label>
                 <div className="relative">
-                  <User size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4E637A]" />
+                  <User size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
                     type="text"
                     value={form.username}
@@ -115,11 +124,12 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Email */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#64748B] mb-1.5 uppercase tracking-wide">Email <span className="text-red-400">*</span></label>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+                Email <span className="text-red-400">*</span>
+              </label>
               <div className="relative">
-                <Mail size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4E637A]" />
+                <Mail size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
                   value={form.email}
@@ -131,11 +141,12 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#64748B] mb-1.5 uppercase tracking-wide">Password <span className="text-red-400">*</span></label>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+                Password <span className="text-red-400">*</span>
+              </label>
               <div className="relative">
-                <Lock size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4E637A]" />
+                <Lock size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type={showPass ? 'text' : 'password'}
                   value={form.password}
@@ -145,13 +156,13 @@ export default function Register() {
                   className="input-base pl-9 pr-10"
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#4E637A] hover:text-[#94A3B8] transition-colors">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
                   {showPass ? <EyeOff size={13} /> : <Eye size={13} />}
                 </button>
               </div>
               {form.password && (
                 <div className="flex items-center gap-2 mt-2">
-                  <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                  <div className="flex-1 h-1 rounded-full overflow-hidden bg-slate-100">
                     <div
                       className="h-full rounded-full transition-all duration-300"
                       style={{
@@ -168,17 +179,59 @@ export default function Register() {
               )}
             </div>
 
-            {/* Submit */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
+                Confirm Password <span className="text-red-400">*</span>
+              </label>
+              <div className="relative">
+                <Lock size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type={showConfirm ? 'text' : 'password'}
+                  value={form.confirm_password}
+                  onChange={(e) => setForm({ ...form, confirm_password: e.target.value })}
+                  placeholder="Repeat your password"
+                  required
+                  className="input-base pl-9 pr-10"
+                  style={{
+                    borderColor: form.confirm_password && form.confirm_password !== form.password
+                      ? '#FCA5A5' : undefined,
+                  }}
+                />
+                <button type="button" onClick={() => setShowConfirm(!showConfirm)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
+                  {showConfirm ? <EyeOff size={13} /> : <Eye size={13} />}
+                </button>
+              </div>
+              {form.confirm_password && form.confirm_password !== form.password && (
+                <p className="text-[10px] text-red-500 mt-1">Passwords do not match</p>
+              )}
+            </div>
+
+            <label className="flex items-start gap-2.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="mt-0.5 accent-blue-500 w-4 h-4 flex-shrink-0"
+              />
+              <span className="text-[12px] text-slate-500">
+                I agree to the{' '}
+                <a href="#" className="text-blue-500 hover:text-blue-600 transition-colors">Terms of Service</a>
+                {' '}and{' '}
+                <a href="#" className="text-blue-500 hover:text-blue-600 transition-colors">Privacy Policy</a>
+              </span>
+            </label>
+
             <button
               type="submit"
               disabled={loading}
               className="w-full flex items-center justify-center gap-2.5 font-semibold text-white py-2.5 rounded-xl transition-all duration-200 disabled:opacity-50 mt-2"
               style={{
                 background: 'linear-gradient(135deg, #3B82F6, #2563EB)',
-                boxShadow: '0 4px 14px rgba(59,130,246,0.35)',
+                boxShadow: '0 4px 14px rgba(59,130,246,0.30)',
               }}
-              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.boxShadow = '0 6px 20px rgba(59,130,246,0.5)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 14px rgba(59,130,246,0.35)' }}
+              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.boxShadow = '0 6px 20px rgba(59,130,246,0.45)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 14px rgba(59,130,246,0.30)' }}
             >
               {loading ? <LoadingSpinner size="sm" /> : <ArrowRight size={15} />}
               {loading ? 'Creating account…' : 'Create Account'}
@@ -186,20 +239,20 @@ export default function Register() {
           </form>
 
           <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
-            <span className="text-[11px] text-[#4E637A]">or</span>
-            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
+            <div className="flex-1 h-px bg-slate-100" />
+            <span className="text-[11px] text-slate-400">or</span>
+            <div className="flex-1 h-px bg-slate-100" />
           </div>
 
-          <p className="text-center text-[13px] text-[#64748B]">
+          <p className="text-center text-[13px] text-slate-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+            <Link to="/login" className="text-blue-500 hover:text-blue-600 font-medium transition-colors">
               Sign in
             </Link>
           </p>
         </div>
 
-        <p className="text-center text-[11px] text-[#2A3A54] mt-5">
+        <p className="text-center text-[11px] text-slate-400 mt-5">
           By creating an account, you agree to our terms of service
         </p>
       </div>

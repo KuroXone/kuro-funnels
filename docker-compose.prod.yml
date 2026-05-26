@@ -1,0 +1,55 @@
+version: '3.9'
+
+# Production overrides — use with:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+
+  db:
+    # Don't expose postgres port to internet in production
+    ports: []
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-kuropass}
+
+  redis:
+    # Don't expose redis port to internet in production
+    ports: []
+
+  backend:
+    # No --reload, no volume mount (use the baked Docker image)
+    volumes: []
+    ports: []
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+    environment:
+      DATABASE_URL: postgresql://kuro:${DB_PASSWORD:-kuropass}@db:5432/kurofunnels
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+
+  worker:
+    volumes: []
+    environment:
+      DATABASE_URL: postgresql://kuro:${DB_PASSWORD:-kuropass}@db:5432/kurofunnels
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+
+  beat:
+    volumes: []
+    environment:
+      DATABASE_URL: postgresql://kuro:${DB_PASSWORD:-kuropass}@db:5432/kurofunnels
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+
+  flower:
+    ports: []
+
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.ssl.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro

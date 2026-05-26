@@ -26,5 +26,13 @@ celery_app.conf.update(
             "task": "app.workers.tasks.cleanup_old_queue_items",
             "schedule": 3600.0,  # every hour
         },
+        "advance-warmup-domains": {
+            "task": "app.workers.tasks.advance_warmup_domains",
+            "schedule": 3600.0,  # every hour
+        },
+        "auto-verify-domains": {
+            "task": "app.workers.tasks.auto_verify_domains",
+            "schedule": 300.0,  # every 5 minutes
+        },
     },
 )

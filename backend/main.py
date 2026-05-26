@@ -35,9 +35,17 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+_allowed_origins = list({
+    "http://localhost:5173",   # Vite dev server
+    "http://localhost:5174",   # Vite fallback port
+    "http://localhost:80",     # nginx (Docker)
+    "http://localhost",        # nginx (Docker, default port)
+    settings.FRONTEND_URL,
+})
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", settings.FRONTEND_URL, "*"],
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

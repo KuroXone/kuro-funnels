@@ -12,7 +12,7 @@ function UsageBar({ pct, color = 'bg-violet-500' }) {
   const safeP = Math.min(100, pct || 0)
   const barColor = safeP > 90 ? 'bg-red-500' : safeP > 70 ? 'bg-yellow-500' : color
   return (
-    <div className="w-full bg-gray-800 rounded-full h-1.5">
+    <div className="w-full bg-slate-100 rounded-full h-1.5">
       <div className={`h-1.5 rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${safeP}%` }} />
     </div>
   )
@@ -20,7 +20,7 @@ function UsageBar({ pct, color = 'bg-violet-500' }) {
 
 function StatusDot({ status }) {
   const colors = { active: 'bg-green-400', paused: 'bg-yellow-400', error: 'bg-red-400', testing: 'bg-blue-400' }
-  return <span className={`inline-block w-2 h-2 rounded-full ${colors[status] || 'bg-gray-500'} ${status === 'active' ? 'animate-pulse' : ''}`} />
+  return <span className={`inline-block w-2 h-2 rounded-full ${colors[status] || 'bg-slate-400'} ${status === 'active' ? 'animate-pulse' : ''}`} />
 }
 
 export default function SMTPHealth() {
@@ -73,7 +73,7 @@ export default function SMTPHealth() {
           <button
             onClick={() => load(true)}
             disabled={refreshing}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-400 rounded-lg text-sm transition-all disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg text-sm transition-all disabled:opacity-50"
           >
             <RefreshCw size={13} className={refreshing ? 'animate-spin' : ''} />
             Refresh
@@ -86,7 +86,7 @@ export default function SMTPHealth() {
         {summary && (
           <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3">
             {[
-              { label: 'Total SMTPs', value: s.total ?? 0, color: 'text-gray-300' },
+              { label: 'Total SMTPs', value: s.total ?? 0, color: 'text-slate-700' },
               { label: 'Active', value: s.active ?? 0, color: 'text-green-400' },
               { label: 'Error', value: s.error ?? 0, color: 'text-red-400' },
               { label: 'Paused', value: s.paused ?? 0, color: 'text-yellow-400' },
@@ -94,7 +94,7 @@ export default function SMTPHealth() {
               { label: 'Avg Success Rate', value: `${s.avg_success_rate ?? 0}%`, color: s.avg_success_rate >= 95 ? 'text-green-400' : 'text-yellow-400' },
               { label: 'Sent 24h', value: (s.total_sent_24h ?? 0).toLocaleString(), color: 'text-violet-400' },
             ].map(({ label, value, color }) => (
-              <div key={label} className="bg-gray-900 border border-gray-800 rounded-xl p-3 text-center">
+              <div key={label} className="bg-white border border-slate-200 rounded-xl p-3 text-center">
                 <p className={`text-lg font-bold ${color}`}>{value}</p>
                 <p className="text-gray-600 text-xs mt-0.5">{label}</p>
               </div>
@@ -114,7 +114,7 @@ export default function SMTPHealth() {
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             {stats.map((s) => (
-              <div key={s.id} className={`bg-gray-900 border rounded-xl p-5 transition-all ${s.status === 'error' ? 'border-red-500/30' : s.status === 'active' ? 'border-gray-800 hover:border-gray-700' : 'border-yellow-500/20'}`}>
+              <div key={s.id} className={`bg-white border rounded-xl p-5 transition-all ${s.status === 'error' ? 'border-red-500/30' : s.status === 'active' ? 'border-slate-200 hover:border-slate-200' : 'border-yellow-500/20'}`}>
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
@@ -122,8 +122,8 @@ export default function SMTPHealth() {
                       <StatusDot status={s.status} />
                     </div>
                     <div>
-                      <p className="text-white font-semibold">{s.name}</p>
-                      <p className="text-gray-500 text-xs">{s.host}:{s.port} {s.provider ? `· ${s.provider}` : ''}</p>
+                      <p className="text-slate-800 font-semibold">{s.name}</p>
+                      <p className="text-slate-500 text-xs">{s.host}:{s.port} {s.provider ? `· ${s.provider}` : ''}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -135,7 +135,7 @@ export default function SMTPHealth() {
                     <button
                       onClick={() => handleRecalc(s.id)}
                       disabled={reCalcId === s.id}
-                      className="p-1.5 text-gray-500 hover:text-violet-400 hover:bg-violet-500/10 rounded-lg transition-all"
+                      className="p-1.5 text-slate-500 hover:text-violet-400 hover:bg-violet-500/10 rounded-lg transition-all"
                       title="Recalculate reputation"
                     >
                       {reCalcId === s.id ? <LoadingSpinner size="sm" /> : <RefreshCw size={12} />}
@@ -151,9 +151,9 @@ export default function SMTPHealth() {
                     { label: 'Success Rate', value: `${s.success_rate}%`, icon: CheckCircle, color: s.success_rate >= 95 ? 'text-green-400' : 'text-yellow-400' },
                     { label: 'Bounce Rate', value: `${s.bounce_rate}%`, icon: XCircle, color: s.bounce_rate > 5 ? 'text-red-400' : 'text-green-400' },
                     { label: 'Reputation', value: `${s.reputation_score}%`, icon: Activity, color: s.reputation_score >= 80 ? 'text-green-400' : s.reputation_score >= 50 ? 'text-yellow-400' : 'text-red-400' },
-                    { label: 'Weight', value: s.weight, icon: Activity, color: 'text-gray-400' },
+                    { label: 'Weight', value: s.weight, icon: Activity, color: 'text-slate-500' },
                   ].map(({ label, value, color }) => (
-                    <div key={label} className="bg-gray-800/50 rounded-lg p-2.5">
+                    <div key={label} className="bg-slate-100/50 rounded-lg p-2.5">
                       <p className={`text-base font-bold ${color}`}>{value ?? '—'}</p>
                       <p className="text-gray-600 text-xs mt-0.5">{label}</p>
                     </div>
@@ -163,14 +163,14 @@ export default function SMTPHealth() {
                 {/* Usage bars */}
                 <div className="space-y-2.5">
                   <div>
-                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                    <div className="flex justify-between text-xs text-slate-500 mb-1">
                       <span>Hourly usage</span>
                       <span>{s.sent_last_hour} / {s.limit_per_hour} ({s.hourly_usage_pct}%)</span>
                     </div>
                     <UsageBar pct={s.hourly_usage_pct} color="bg-violet-500" />
                   </div>
                   <div>
-                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                    <div className="flex justify-between text-xs text-slate-500 mb-1">
                       <span>Daily usage</span>
                       <span>{s.sent_last_24h} / {s.limit_per_day} ({s.daily_usage_pct}%)</span>
                     </div>

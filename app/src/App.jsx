@@ -26,7 +26,7 @@ import LoadingSpinner from './components/LoadingSpinner'
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuthStore()
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#0B1020' }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
       <LoadingSpinner size="lg" />
     </div>
   )
@@ -36,7 +36,7 @@ function ProtectedRoute({ children }) {
 function PublicRoute({ children }) {
   const { isAuthenticated, loading } = useAuthStore()
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#0B1020' }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-base)' }}>
       <LoadingSpinner size="lg" />
     </div>
   )
@@ -53,7 +53,7 @@ export default function App() {
       <Toaster
         position="top-right"
         toastOptions={{
-          style: { background: '#1B2A42', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', fontSize: '14px' },
+          style: { background: '#FFFFFF', color: '#0F172A', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '10px', fontSize: '14px', boxShadow: '0 4px 16px rgba(0,0,0,0.10)' },
           success: { iconTheme: { primary: '#10B981', secondary: '#fff' } },
           error: { iconTheme: { primary: '#EF4444', secondary: '#fff' } },
         }}
@@ -61,7 +61,6 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-
         <Route path="/" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />

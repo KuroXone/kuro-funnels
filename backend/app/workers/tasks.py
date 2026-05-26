@@ -7,9 +7,11 @@ from ..database import SessionLocal
 from ..models.analytics import EmailQueue, SendLog, Analytics
 from ..models.campaign import Campaign, CampaignStatus
 from ..models.contact import Contact
+from ..models.domain import Domain
 from ..models.smtp import SMTPServer, SMTPStats
 from ..services.email import send_email_via_smtp
 from ..services.smtp_rotation import smtp_rotator
+from ..services.warmup_service import advance_warmup, should_advance_day
 
 
 def get_db() -> Session:
@@ -86,6 +88,17 @@ def send_single_email(self, queue_item_id: int):
 
             smtp_rotator.mark_success(db, smtp)
             db.add(SMTPStats(smtp_id=smtp.id, sent_count=1))
+
+            # Track warmup send count for the sending domain
+            if campaign.from_email and "@" in campaign.from_email:
+                sending_domain = campaign.from_email.split("@")[1].lower()
+                domain_obj = (
+                    db.query(Domain)
+                    .filter(Domain.domain == sending_domain, Domain.owner_id == campaign.owner_id)
+                    .first()
+                )
+                if domain_obj and domain_obj.warmup_enabled:
+                    domain_obj.warmup_sent_today = (domain_obj.warmup_sent_today or 0) + 1
 
         else:
             item.retry_count = (item.retry_count or 0) + 1
@@ -167,5 +180,52 @@ def cleanup_old_queue_items():
             EmailQueue.processed_at < cutoff,
         ).delete()
         db.commit()
+    finally:
+        db.close()
+
+
+@celery_app.task
+def advance_warmup_domains():
+    """Advance warmup day for all eligible domains (runs hourly via beat)."""
+    db = get_db()
+    try:
+        domains = (
+            db.query(Domain)
+            .filter(Domain.warmup_enabled == True)
+            .all()
+        )
+        advanced = 0
+        for domain_obj in domains:
+            if should_advance_day(domain_obj.warmup_last_advanced):
+                if advance_warmup(domain_obj):
+                    advanced += 1
+        if advanced:
+            db.commit()
+        return {"advanced": advanced}
+    finally:
+        db.close()
+
+
+@celery_app.task
+def auto_verify_domains():
+    """Re-check DNS for all pending/partial domains every 5 minutes (beat schedule)."""
+    from ..routers.domains import run_dns_verification
+    db = get_db()
+    try:
+        domains = (
+            db.query(Domain)
+            .filter(Domain.status.in_(["pending", "partial"]))
+            .all()
+        )
+        checked = 0
+        now = datetime.now(timezone.utc)
+        for domain_obj in domains:
+            try:
+                run_dns_verification(db, domain_obj, now)
+                checked += 1
+            except Exception:
+                pass
+        db.commit()
+        return {"checked": checked}
     finally:
         db.close()

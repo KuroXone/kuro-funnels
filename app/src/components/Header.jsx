@@ -8,22 +8,23 @@ export default function Header({ title, subtitle, action }) {
     <header
       className="sticky top-0 z-30 flex items-center gap-4 px-6 h-14"
       style={{
-        background: 'rgba(11,16,32,0.85)',
+        background: 'rgba(255,255,255,0.90)',
         backdropFilter: 'blur(16px) saturate(180%)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(0,0,0,0.08)',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
       }}
     >
       {/* Title area */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-3">
-          <h1 className="text-[15px] font-semibold text-[#F8FAFC] leading-none truncate">{title}</h1>
+          <h1 className="text-[15px] font-semibold text-slate-800 leading-none truncate">{title}</h1>
           {subtitle && (
             <span
               className="text-xs px-2 py-0.5 rounded-md font-medium"
               style={{
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.09)',
-                color: '#64748B',
+                background: 'rgba(0,0,0,0.05)',
+                border: '1px solid rgba(0,0,0,0.08)',
+                color: '#475569',
               }}
             >
               {subtitle}
@@ -35,39 +36,25 @@ export default function Header({ title, subtitle, action }) {
 
       {/* Right side */}
       <div className="flex items-center gap-2 flex-shrink-0">
-        {/* Search hint */}
         <button
-          className="hidden md:flex items-center gap-2 h-8 px-3 rounded-lg text-xs transition-all duration-150"
-          style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            color: '#4E637A',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)'; e.currentTarget.style.color = '#94A3B8' }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#4E637A' }}
+          className="hidden md:flex items-center gap-2 h-8 px-3 rounded-lg text-xs transition-all duration-150 text-slate-400 border border-slate-200 hover:border-slate-300 hover:text-slate-600"
+          style={{ background: '#F8F9FC' }}
         >
           <Search size={12} />
           <span>Search</span>
-          <span
-            className="flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded text-[10px]"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)' }}
-          >
+          <span className="flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 border border-slate-200 text-slate-500">
             <Command size={9} />K
           </span>
         </button>
 
-        {/* Notifications */}
         <button
-          className="relative w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-150"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+          className="relative w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-150 text-slate-400 border border-slate-200 hover:bg-slate-100 hover:border-slate-300"
+          style={{ background: '#F8F9FC' }}
         >
-          <Bell size={14} className="text-[#64748B]" />
+          <Bell size={14} />
           <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-blue-500" />
         </button>
 
-        {/* Avatar */}
         <div
           className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0 cursor-pointer"
           style={{ background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)' }}

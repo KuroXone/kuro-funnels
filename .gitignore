@@ -1,0 +1,30 @@
+# Process tracking (local only)
+.pids/
+
+# Root env (contains ports; commit .env.example instead)
+.env
+
+# Frontend
+app/node_modules/
+app/dist/
+app/.env.local
+
+# Backend
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+backend/.venv/
+backend/*.db
+backend/.env
+
+# Certbot / SSL
+certbot/
+ssl/
+
+# Logs
+/tmp/kuro-*.log
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

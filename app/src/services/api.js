@@ -116,11 +116,17 @@ export const domainsAPI = {
   get: (id) => api.get(`/domains/${id}`),
   update: (id, data) => api.patch(`/domains/${id}`, data),
   delete: (id) => api.delete(`/domains/${id}`),
-  checkDns: (id) => api.post(`/domains/${id}/check-dns`),
+  verify: (id) => api.post(`/domains/${id}/verify`),
+  provision: (id) => api.post(`/domains/${id}/provision`),
   getDnsRecords: (id) => api.get(`/domains/${id}/dns-records`),
+  getRecordStatuses: (id) => api.get(`/domains/${id}/records`),
   regenerateDkim: (id) => api.post(`/domains/${id}/regenerate-dkim`),
+  setDefault: (id) => api.post(`/domains/${id}/set-default`),
   enableWarmup: (id) => api.post(`/warmup/${id}/enable`),
   disableWarmup: (id) => api.post(`/warmup/${id}/disable`),
+  getSmtpLinks: (id) => api.get(`/domains/${id}/smtp-links`),
+  addSmtpLink: (id, smtpId, isPrimary) => api.post(`/domains/${id}/smtp-links`, null, { params: { smtp_id: smtpId, is_primary: isPrimary } }),
+  removeSmtpLink: (id, smtpId) => api.delete(`/domains/${id}/smtp-links/${smtpId}`),
 }
 
 // Warmup

@@ -37,7 +37,7 @@ const STATUS_TABS = [
 
 const PAGE_SIZE = 20
 const STATUS_ORDER = ['sending', 'scheduled', 'draft', 'paused', 'completed', 'failed']
-const B = '1px solid rgba(255,255,255,0.07)'
+const B = '1px solid rgba(0,0,0,0.08)'
 
 function StatChip({ icon: Icon, label, value, color }) {
   const colors = {
@@ -54,8 +54,8 @@ function StatChip({ icon: Icon, label, value, color }) {
         <Icon size={16} style={{ color: c.icon }} />
       </div>
       <div>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#4E637A]">{label}</p>
-        <p className="text-[20px] font-bold text-[#F8FAFC] leading-tight">{value}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">{label}</p>
+        <p className="text-[20px] font-bold text-slate-800 leading-tight">{value}</p>
       </div>
     </div>
   )
@@ -85,19 +85,19 @@ function ActionMenu({ campaign, onEdit, onSend, onPause, onTest, onDelete }) {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-7 h-7 flex items-center justify-center rounded-lg transition-all text-[#4E637A] hover:text-[#94A3B8] hover:bg-white/6"
+        className="w-7 h-7 flex items-center justify-center rounded-lg transition-all text-slate-400 hover:text-slate-500 hover:bg-slate-100"
       >
         <MoreHorizontal size={14} />
       </button>
       {open && (
         <div
           className="absolute right-0 top-full mt-1 w-44 z-50 py-1 rounded-xl"
-          style={{ background: '#1B2A42', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}
+          style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.10)', boxShadow: '0 4px 20px rgba(0,0,0,0.10)' }}
           onClick={() => setOpen(false)}
         >
           {items.map((item, i) =>
             item.divider
-              ? <div key={i} className="my-1" style={{ height: 1, background: 'rgba(255,255,255,0.07)' }} />
+              ? <div key={i} className="my-1" style={{ height: 1, background: 'rgba(0,0,0,0.08)' }} />
               : <MenuItem key={item.label} {...item} />
           )}
         </div>
@@ -113,7 +113,7 @@ function MenuItem({ icon: Icon, label, color, action }) {
       onClick={action}
       onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
       className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] transition-all"
-      style={{ color: h ? color : '#94A3B8', background: h ? 'rgba(255,255,255,0.04)' : 'transparent' }}
+      style={{ color: h ? color : '#94A3B8', background: h ? 'rgba(0,0,0,0.04)' : 'transparent' }}
     >
       <Icon size={13} style={{ color: h ? color : '#64748B' }} />
       {label}
@@ -122,20 +122,20 @@ function MenuItem({ icon: Icon, label, color, action }) {
 }
 
 function ProgressBar({ value, total, color = '#3B82F6' }) {
-  if (!total) return <span className="text-xs text-[#4E637A]">—</span>
+  if (!total) return <span className="text-xs text-slate-400">—</span>
   const pct = Math.min(100, Math.round((value / total) * 100))
   return (
     <div className="flex items-center gap-2">
-      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)', minWidth: 40 }}>
+      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.08)', minWidth: 40 }}>
         <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-[11px] tabular-nums text-[#64748B]">{pct}%</span>
+      <span className="text-[11px] tabular-nums text-slate-500">{pct}%</span>
     </div>
   )
 }
 
 function MetricPill({ value, color }) {
-  if (value == null) return <span className="text-[#4E637A] text-xs">—</span>
+  if (value == null) return <span className="text-slate-400 text-xs">—</span>
   const pct = Math.round(value * 100) / 100
   const C = {
     blue:   { text: '#3B82F6', bg: 'rgba(59,130,246,0.12)',  border: 'rgba(59,130,246,0.2)' },
@@ -154,7 +154,7 @@ function Toggle({ on, onToggle }) {
   return (
     <div onClick={onToggle}
       className="w-8 h-[18px] rounded-full relative cursor-pointer transition-all flex-shrink-0"
-      style={{ background: on ? '#3B82F6' : 'rgba(255,255,255,0.1)' }}>
+      style={{ background: on ? '#3B82F6' : 'rgba(0,0,0,0.10)' }}>
       <div className="absolute top-[2px] w-[14px] h-[14px] rounded-full bg-white shadow transition-all"
         style={{ left: on ? '18px' : '2px' }} />
     </div>
@@ -244,7 +244,7 @@ export default function Campaigns() {
           <SearchInput value={search} onChange={setSearch} placeholder="Search campaigns…" className="w-full sm:w-64" />
 
           <div className="flex items-center gap-0.5 p-1 rounded-xl flex-wrap"
-            style={{ background: '#121A2B', border: B }}>
+            style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}>
             {STATUS_TABS.map(({ key, label }) => {
               const cnt = key === 'all' ? campaigns.length : (counts[key] || 0)
               const active = statusFilter === key
@@ -253,7 +253,7 @@ export default function Campaigns() {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all whitespace-nowrap"
                   style={active
                     ? { background: 'rgba(59,130,246,0.15)', color: '#60A5FA', border: '1px solid rgba(59,130,246,0.3)' }
-                    : { color: '#4E637A', border: '1px solid transparent' }
+                    : { color: '#94A3B8', border: '1px solid transparent' }
                   }
                   onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = '#94A3B8' }}
                   onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = '#4E637A' }}
@@ -263,7 +263,7 @@ export default function Campaigns() {
                     <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold"
                       style={active
                         ? { background: 'rgba(59,130,246,0.2)', color: '#60A5FA' }
-                        : { background: 'rgba(255,255,255,0.07)', color: '#64748B' }
+                        : { background: 'rgba(0,0,0,0.08)', color: '#475569' }
                       }>{cnt}</span>
                   )}
                 </button>
@@ -305,12 +305,12 @@ export default function Campaigns() {
                       <td>
                         <div className="flex items-center gap-3">
                           <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                            style={{ background: 'rgba(255,255,255,0.06)', border: B }}>
-                            <Mail size={12} className="text-[#4E637A]" />
+                            style={{ background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.08)' }}>
+                            <Mail size={12} className="text-slate-400" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-[#F8FAFC] font-medium text-[13px] truncate">{c.name}</p>
-                            <p className="text-[11px] text-[#64748B] truncate max-w-[260px]">{c.subject}</p>
+                            <p className="text-slate-800 font-medium text-[13px] truncate">{c.name}</p>
+                            <p className="text-[11px] text-slate-500 truncate max-w-[260px]">{c.subject}</p>
                           </div>
                         </div>
                       </td>
@@ -318,7 +318,7 @@ export default function Campaigns() {
                       <td><MetricPill value={openRate} color="blue" /></td>
                       <td><MetricPill value={clickRate} color="purple" /></td>
                       <td style={{ minWidth: 120 }}>
-                        <p className="text-[11px] text-[#4E637A] mb-1">
+                        <p className="text-[11px] text-slate-400 mb-1">
                           {(c.sent_count || 0).toLocaleString()} / {(c.total_recipients || 0).toLocaleString()}
                         </p>
                         <ProgressBar
@@ -328,10 +328,10 @@ export default function Campaigns() {
                         />
                       </td>
                       <td>
-                        <p className="text-[12px] text-[#94A3B8]">
+                        <p className="text-[12px] text-slate-500">
                           {new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </p>
-                        <p className="text-[11px] text-[#4E637A]">{new Date(c.created_at).getFullYear()}</p>
+                        <p className="text-[11px] text-slate-400">{new Date(c.created_at).getFullYear()}</p>
                       </td>
                       <td>
                         <div className="flex items-center gap-1 justify-end">
@@ -377,14 +377,14 @@ export default function Campaigns() {
         <form onSubmit={handleSave}>
           {/* Section: Details */}
           <div className="mb-5">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A] mb-3">Campaign Details</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Campaign Details</p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">Campaign Name <span className="text-red-400">*</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">Campaign Name <span className="text-red-400">*</span></label>
                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required placeholder="Summer Promo 2025" className="input-base" />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">Subject Line <span className="text-red-400">*</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">Subject Line <span className="text-red-400">*</span></label>
                 <input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} required placeholder="Don't miss this…" className="input-base" />
               </div>
             </div>
@@ -392,18 +392,18 @@ export default function Campaigns() {
 
           {/* Section: Sender */}
           <div className="mb-5">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A] mb-3">Sender Identity</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Sender Identity</p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">From Name <span className="text-red-400">*</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">From Name <span className="text-red-400">*</span></label>
                 <input value={form.from_name} onChange={(e) => setForm({ ...form, from_name: e.target.value })} required placeholder="Jane at Company" className="input-base" />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">From Email <span className="text-red-400">*</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">From Email <span className="text-red-400">*</span></label>
                 <input type="email" value={form.from_email} onChange={(e) => setForm({ ...form, from_email: e.target.value })} required placeholder="hello@company.com" className="input-base" />
               </div>
               <div className="col-span-2">
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">Reply-To <span className="text-[#4E637A] font-normal">(optional)</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">Reply-To <span className="text-slate-400 font-normal">(optional)</span></label>
                 <input type="email" value={form.reply_to} onChange={(e) => setForm({ ...form, reply_to: e.target.value })} placeholder="replies@company.com" className="input-base" />
               </div>
             </div>
@@ -411,17 +411,17 @@ export default function Campaigns() {
 
           {/* Section: Targeting */}
           <div className="mb-5">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A] mb-3">Targeting & Schedule</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Targeting & Schedule</p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">Contact List</label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">Contact List</label>
                 <select value={form.contact_list_id} onChange={(e) => setForm({ ...form, contact_list_id: e.target.value })} className="input-base">
                   <option value="">Select a list…</option>
                   {contactLists.map((l) => <option key={l.id} value={l.id}>{l.name} ({(l.contact_count || 0).toLocaleString()})</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5">Schedule <span className="text-[#4E637A] font-normal">(optional)</span></label>
+                <label className="block text-[11px] font-semibold text-slate-500 mb-1.5">Schedule <span className="text-slate-400 font-normal">(optional)</span></label>
                 <input type="datetime-local" value={form.scheduled_at} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value })} className="input-base" />
               </div>
             </div>
@@ -430,12 +430,12 @@ export default function Campaigns() {
           {/* Section: Content */}
           <div className="mb-5">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A]">Email Content</p>
-              <div className="flex gap-0.5 p-0.5 rounded-lg" style={{ background: '#121A2B', border: B }}>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">Email Content</p>
+              <div className="flex gap-0.5 p-0.5 rounded-lg" style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}>
                 {['html', 'text'].map((mode) => (
                   <button key={mode} type="button" onClick={() => setEditorMode(mode)}
                     className="px-3 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wide transition-all"
-                    style={editorMode === mode ? { background: '#3B82F6', color: '#fff' } : { color: '#4E637A' }}>
+                    style={editorMode === mode ? { background: '#3B82F6', color: '#fff' } : { color: '#94A3B8' }}>
                     {mode}
                   </button>
                 ))}
@@ -446,27 +446,27 @@ export default function Campaigns() {
               onChange={(e) => setForm({ ...form, [editorMode === 'html' ? 'html_content' : 'text_content']: e.target.value })}
               rows={8}
               className="w-full rounded-xl px-4 py-3 text-sm font-mono resize-y scrollbar-thin"
-              style={{ background: '#121A2B', border: '1px solid rgba(255,255,255,0.1)', color: '#F8FAFC', outline: 'none', minHeight: 160 }}
+              style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.10)', color: '#0F172A', outline: 'none', minHeight: 160 }}
               onFocus={(e) => e.currentTarget.style.borderColor = '#3B82F6'}
-              onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'}
+              onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(0,0,0,0.10)'}
             />
             <div className="flex items-center gap-2 mt-2 flex-wrap">
-              <span className="text-[11px] text-[#4E637A]">Variables:</span>
+              <span className="text-[11px] text-slate-400">Variables:</span>
               {['{{first_name}}', '{{last_name}}', '{{email}}', '{{unsubscribe_link}}'].map((v) => (
                 <button key={v} type="button"
                   onClick={() => setForm((f) => ({ ...f, [editorMode === 'html' ? 'html_content' : 'text_content']: f[editorMode === 'html' ? 'html_content' : 'text_content'] + v }))}
                   className="px-2 py-0.5 rounded text-[11px] font-mono transition-all"
-                  style={{ background: '#121A2B', border: B, color: '#8B5CF6' }}
+                  style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)', color: '#8B5CF6' }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(139,92,246,0.4)'; e.currentTarget.style.background = 'rgba(139,92,246,0.08)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.background = '#121A2B' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)'; e.currentTarget.style.background = '#F5F7FB' }}
                 >{v}</button>
               ))}
             </div>
           </div>
 
           {/* Section: Tracking */}
-          <div className="mb-6 p-4 rounded-xl" style={{ background: '#121A2B', border: B }}>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A] mb-3">Tracking</p>
+          <div className="mb-6 p-4 rounded-xl" style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Tracking</p>
             <div className="flex items-center gap-6">
               {[
                 { key: 'track_opens',  label: 'Track Opens',  sub: 'Pixel tracking' },
@@ -475,8 +475,8 @@ export default function Campaigns() {
                 <label key={key} className="flex items-center gap-2.5 cursor-pointer">
                   <Toggle on={form[key]} onToggle={() => setForm({ ...form, [key]: !form[key] })} />
                   <div>
-                    <p className="text-[12px] font-medium text-[#F8FAFC]">{label}</p>
-                    <p className="text-[10px] text-[#4E637A]">{sub}</p>
+                    <p className="text-[12px] font-medium text-slate-800">{label}</p>
+                    <p className="text-[10px] text-slate-400">{sub}</p>
                   </div>
                 </label>
               ))}
@@ -499,9 +499,9 @@ export default function Campaigns() {
         size="sm">
         <div className="space-y-4">
           <div>
-            <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">Recipient Address</label>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Recipient Address</label>
             <input type="email" value={testEmail} onChange={(e) => setTestEmail(e.target.value)} placeholder="yourname@example.com" className="input-base" autoFocus />
-            <p className="text-[11px] mt-2 text-[#4E637A]">Variables replaced with sample data.</p>
+            <p className="text-[11px] mt-2 text-slate-400">Variables replaced with sample data.</p>
           </div>
           <div className="flex gap-3">
             <Btn variant="secondary" size="md" className="flex-1" onClick={() => { setTestCampaign(null); setTestEmail('') }}>Cancel</Btn>

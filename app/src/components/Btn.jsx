@@ -1,14 +1,14 @@
 import LoadingSpinner from './LoadingSpinner'
 
 const VARIANTS = {
-  primary:   'bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white border border-blue-500/40 shadow-sm',
-  secondary: 'bg-[#1B2A42] hover:bg-[#243350] text-[#94A3B8] hover:text-[#F8FAFC] border border-white/10 hover:border-white/16',
-  ghost:     'hover:bg-white/5 text-[#64748B] hover:text-[#94A3B8] border border-transparent hover:border-white/8',
-  danger:    'bg-red-500/12 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/40',
-  success:   'bg-emerald-500/12 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20',
-  outline:   'border border-white/10 hover:border-blue-500/50 text-[#94A3B8] hover:text-white hover:bg-blue-500/8',
-  purple:    'bg-violet-500/12 hover:bg-violet-500/20 text-violet-400 border border-violet-500/20',
-  warning:   'bg-amber-500/12 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20',
+  primary:   'bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white border border-blue-600/80 shadow-sm',
+  secondary: 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 shadow-sm',
+  ghost:     'hover:bg-slate-100 text-slate-500 hover:text-slate-700 border border-transparent hover:border-slate-200',
+  danger:    'bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 hover:border-red-300',
+  success:   'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200',
+  outline:   'border border-slate-200 hover:border-blue-400 text-slate-600 hover:text-blue-600 hover:bg-blue-50',
+  purple:    'bg-violet-50 hover:bg-violet-100 text-violet-700 border border-violet-200',
+  warning:   'bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200',
 }
 
 const SIZES = {

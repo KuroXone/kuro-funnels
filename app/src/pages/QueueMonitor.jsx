@@ -15,11 +15,11 @@ import { queueAPI } from '../services/api'
 const STATUS_LIST = ['pending', 'processing', 'sent', 'failed', 'retry']
 
 const STAT_STYLES = {
-  pending: { bar: 'bg-yellow-500', text: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20' },
-  processing: { bar: 'bg-blue-500', text: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-  sent: { bar: 'bg-green-500', text: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
-  failed: { bar: 'bg-red-500', text: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-  retry: { bar: 'bg-orange-500', text: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
+  pending:    { bar: 'bg-yellow-500', text: 'text-yellow-700', bg: 'bg-yellow-50 border-yellow-200' },
+  processing: { bar: 'bg-blue-500',   text: 'text-blue-700',   bg: 'bg-blue-50 border-blue-200'     },
+  sent:       { bar: 'bg-green-500',  text: 'text-green-700',  bg: 'bg-green-50 border-green-200'   },
+  failed:     { bar: 'bg-red-500',    text: 'text-red-700',    bg: 'bg-red-50 border-red-200'       },
+  retry:      { bar: 'bg-orange-500', text: 'text-orange-700', bg: 'bg-orange-50 border-orange-200' },
 }
 
 export default function QueueMonitor() {
@@ -86,11 +86,11 @@ export default function QueueMonitor() {
               <button
                 key={s}
                 onClick={() => setStatusFilter(statusFilter === s ? '' : s)}
-                className={`p-4 rounded-xl border transition-all text-left ${statusFilter === s ? `${styles.bg} border-opacity-60` : 'bg-gray-900 border-gray-800 hover:border-gray-700'}`}
+                className={`p-4 rounded-xl border transition-all text-left ${statusFilter === s ? `${styles.bg} border-opacity-60` : 'bg-white border-slate-200 hover:border-slate-200'}`}
               >
                 <div className={`text-2xl font-bold mb-1 ${styles.text}`}>{val.toLocaleString()}</div>
-                <div className="text-xs text-gray-500 capitalize mb-2">{s}</div>
-                <div className="w-full bg-gray-800 rounded-full h-1">
+                <div className="text-xs text-slate-500 capitalize mb-2">{s}</div>
+                <div className="w-full bg-slate-100 rounded-full h-1">
                   <div className={`h-1 rounded-full transition-all duration-500 ${styles.bar}`} style={{ width: `${(val / maxVal) * 100}%` }} />
                 </div>
               </button>
@@ -101,7 +101,7 @@ export default function QueueMonitor() {
         {/* Toolbar */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="text-gray-500 text-sm">{totalAll.toLocaleString()} total</span>
+            <span className="text-slate-500 text-sm">{totalAll.toLocaleString()} total</span>
             {statusFilter && (
               <button onClick={() => setStatusFilter('')} className="text-xs text-violet-400 hover:underline">
                 Clear filter
@@ -116,40 +116,40 @@ export default function QueueMonitor() {
             <button
               onClick={handleRetry}
               disabled={retrying || !stats.failed}
-              className="flex items-center gap-1.5 px-3 py-2 bg-orange-600/15 hover:bg-orange-600/25 text-orange-400 rounded-lg text-sm transition-all disabled:opacity-40"
+              className="flex items-center gap-1.5 px-3 py-2 bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-sm transition-all disabled:opacity-40"
             >
               {retrying ? <LoadingSpinner size="sm" /> : <RotateCcw size={13} />}
               Retry Failed ({stats.failed || 0})
             </button>
-            <button onClick={loadItems} className="flex items-center gap-1.5 px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-all">
+            <button onClick={loadItems} className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm transition-all">
               <RefreshCw size={13} /> Refresh
             </button>
           </div>
         </div>
 
         {/* Table */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
           {itemsLoading ? <PageLoader /> : items.length === 0 ? (
             <EmptyState icon={ListTodo} title="No queue items" description={statusFilter ? `No items with status "${statusFilter}"` : 'The queue is empty'} />
           ) : (
             <>
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-800">
+                  <tr className="border-b border-slate-200">
                     {['ID', 'Campaign', 'Status', 'Retries', 'Created', 'Processed', 'Error'].map((h) => (
-                      <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{h}</th>
+                      <th key={h} className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-800">
+                <tbody className="divide-y divide-slate-100">
                   {items.map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-800/40 transition-all">
-                      <td className="px-4 py-3 text-gray-500 text-xs font-mono">#{item.id}</td>
-                      <td className="px-4 py-3 text-gray-300 text-sm">#{item.campaign_id}</td>
+                    <tr key={item.id} className="hover:bg-slate-50 transition-all">
+                      <td className="px-4 py-3 text-slate-500 text-xs font-mono">#{item.id}</td>
+                      <td className="px-4 py-3 text-slate-700 text-sm">#{item.campaign_id}</td>
                       <td className="px-4 py-3"><Badge status={item.status} /></td>
-                      <td className="px-4 py-3 text-gray-400 text-sm">{item.retry_count}</td>
-                      <td className="px-4 py-3 text-gray-500 text-xs">{item.created_at ? new Date(item.created_at).toLocaleString() : '—'}</td>
-                      <td className="px-4 py-3 text-gray-500 text-xs">{item.processed_at ? new Date(item.processed_at).toLocaleString() : '—'}</td>
+                      <td className="px-4 py-3 text-slate-500 text-sm">{item.retry_count}</td>
+                      <td className="px-4 py-3 text-slate-500 text-xs">{item.created_at ? new Date(item.created_at).toLocaleString() : '—'}</td>
+                      <td className="px-4 py-3 text-slate-500 text-xs">{item.processed_at ? new Date(item.processed_at).toLocaleString() : '—'}</td>
                       <td className="px-4 py-3 text-red-400 text-xs max-w-[200px] truncate">{item.error_message || '—'}</td>
                     </tr>
                   ))}

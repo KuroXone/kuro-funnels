@@ -34,15 +34,15 @@ def generate_dkim_keys() -> Tuple[str, str]:
         public_b64 = base64.b64encode(public_der).decode()
         return private_pem.decode(), public_b64
     except Exception:
-        # Fallback placeholder keys if cryptography is unavailable
         return "PRIVATE_KEY_UNAVAILABLE", "PUBLIC_KEY_UNAVAILABLE"
 
 
-def generate_dns_records(domain: str, selector: str, public_key_b64: str) -> dict:
+def generate_dns_records(domain: str, selector: str, public_key_b64: str,
+                          tracking_subdomain: str = None, bounce_subdomain: str = None) -> dict:
     """
-    Generate the DNS TXT records needed to authenticate email from this domain.
+    Generate all DNS records needed to authenticate and track email from this domain.
+    Returns dict with keys: spf, dkim, dmarc, and optionally tracking, bounce.
     """
-    # SPF — allows the domain's own servers + common ESP ranges
     spf = {
         "type": "TXT",
         "host": domain,
@@ -51,8 +51,6 @@ def generate_dns_records(domain: str, selector: str, public_key_b64: str) -> dic
         "purpose": "Authorizes mail servers to send on behalf of your domain.",
     }
 
-    # DKIM — publish the public key so receivers can verify signatures
-    # Split into 255-char chunks if needed (DNS TXT limit)
     chunks = [public_key_b64[i:i+253] for i in range(0, len(public_key_b64), 253)]
     dkim_value = "v=DKIM1; k=rsa; p=" + "\" \"".join(chunks)
     dkim = {
@@ -63,7 +61,6 @@ def generate_dns_records(domain: str, selector: str, public_key_b64: str) -> dic
         "purpose": "Publishes your DKIM public key so receivers can verify message signatures.",
     }
 
-    # DMARC — policy for unauthenticated mail
     dmarc = {
         "type": "TXT",
         "host": f"_dmarc.{domain}",
@@ -72,7 +69,27 @@ def generate_dns_records(domain: str, selector: str, public_key_b64: str) -> dic
         "purpose": "Instructs receivers what to do with unauthenticated mail and where to send reports.",
     }
 
-    return {"spf": spf, "dkim": dkim, "dmarc": dmarc}
+    records = {"spf": spf, "dkim": dkim, "dmarc": dmarc}
+
+    track = tracking_subdomain or f"track.{domain}"
+    records["tracking"] = {
+        "type": "CNAME",
+        "host": track,
+        "value": domain,
+        "ttl": 3600,
+        "purpose": "Enables open and click tracking via a custom subdomain.",
+    }
+
+    bounce = bounce_subdomain or f"bounce.{domain}"
+    records["bounce"] = {
+        "type": "MX",
+        "host": bounce,
+        "value": f"mx.{domain}",
+        "ttl": 3600,
+        "purpose": "Routes bounce emails to our processing endpoint.",
+    }
+
+    return records
 
 
 def get_domain_health_status(reputation: float, bounce_rate: float, complaint_rate: float) -> str:

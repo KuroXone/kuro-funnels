@@ -48,7 +48,7 @@ export default function AdminPanel() {
           <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6 text-center">
             <Shield size={32} className="mx-auto text-red-400 mb-3" />
             <p className="text-red-400 font-semibold">Access Denied</p>
-            <p className="text-gray-500 text-sm mt-1">You need admin privileges to view this page.</p>
+            <p className="text-slate-500 text-sm mt-1">You need admin privileges to view this page.</p>
           </div>
         </div>
       </div>
@@ -66,56 +66,56 @@ export default function AdminPanel() {
             { label: 'Active', value: (users || []).filter((u) => u.is_active).length, color: 'text-green-400' },
             { label: 'Admins', value: (users || []).filter((u) => u.role === 'admin').length, color: 'text-blue-400' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
+            <div key={label} className="bg-white border border-slate-200 rounded-xl p-4 text-center">
               <p className={`text-2xl font-bold ${color}`}>{value}</p>
-              <p className="text-gray-500 text-xs mt-0.5">{label}</p>
+              <p className="text-slate-500 text-xs mt-0.5">{label}</p>
             </div>
           ))}
         </div>
 
         {/* Search */}
         <div className="flex items-center justify-between">
-          <h2 className="text-white font-semibold">All Users</h2>
+          <h2 className="text-slate-800 font-semibold">All Users</h2>
           <SearchInput value={search} onChange={setSearch} placeholder="Search users..." className="w-56" />
         </div>
 
         {/* Table */}
-        <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
           {loading ? <PageLoader /> : filtered.length === 0 ? (
             <EmptyState icon={Users} title="No users found" />
           ) : (
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-800">
+                <tr className="border-b border-slate-200">
                   {['User', 'Email', 'Role', 'Status', 'Joined', ''].map((h) => (
-                    <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">{h}</th>
+                    <th key={h} className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800">
+              <tbody className="divide-y divide-slate-100">
                 {filtered.map((u) => (
-                  <tr key={u.id} className="hover:bg-gray-800/40 transition-all">
+                  <tr key={u.id} className="hover:bg-slate-50 transition-all">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                           {u.username?.[0]?.toUpperCase()}
                         </div>
                         <div>
-                          <p className="text-white text-sm font-medium">{u.username}</p>
-                          {u.full_name && <p className="text-gray-500 text-xs">{u.full_name}</p>}
+                          <p className="text-slate-800 text-sm font-medium">{u.username}</p>
+                          {u.full_name && <p className="text-slate-500 text-xs">{u.full_name}</p>}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-gray-400 text-sm">{u.email}</td>
+                    <td className="px-4 py-3 text-slate-500 text-sm">{u.email}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${u.role === 'admin' ? 'bg-violet-500/20 text-violet-400' : 'bg-gray-700 text-gray-400'}`}>
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${u.role === 'admin' ? 'bg-violet-500/20 text-violet-400' : 'bg-slate-200 text-slate-500'}`}>
                         {u.role}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <Badge status={u.is_active ? 'active' : 'paused'} label={u.is_active ? 'Active' : 'Inactive'} />
                     </td>
-                    <td className="px-4 py-3 text-gray-500 text-xs">
+                    <td className="px-4 py-3 text-slate-500 text-xs">
                       {new Date(u.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-right">

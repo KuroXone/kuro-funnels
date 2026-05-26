@@ -32,7 +32,7 @@ def register(payload: UserCreate, db: Session = Depends(get_db)):
     return TokenResponse(
         access_token=create_access_token({"sub": str(user.id)}),
         refresh_token=create_refresh_token({"sub": str(user.id)}),
-        user=UserOut.from_orm(user),
+        user=UserOut.model_validate(user),
     )
 
 
@@ -47,7 +47,7 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
     return TokenResponse(
         access_token=create_access_token({"sub": str(user.id)}),
         refresh_token=create_refresh_token({"sub": str(user.id)}),
-        user=UserOut.from_orm(user),
+        user=UserOut.model_validate(user),
     )
 
 
@@ -64,7 +64,7 @@ def refresh(payload: RefreshRequest, db: Session = Depends(get_db)):
     return TokenResponse(
         access_token=create_access_token({"sub": str(user.id)}),
         refresh_token=create_refresh_token({"sub": str(user.id)}),
-        user=UserOut.from_orm(user),
+        user=UserOut.model_validate(user),
     )
 
 

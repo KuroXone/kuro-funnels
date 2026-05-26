@@ -15,8 +15,8 @@ export default function ConfirmDialog({ isOpen, onClose, onConfirm, title, messa
         >
           <AlertTriangle size={20} style={{ color: danger ? '#EF4444' : '#F59E0B' }} />
         </div>
-        <h3 className="text-[#F8FAFC] font-semibold text-[15px] mb-2">{title}</h3>
-        <p className="text-[#64748B] text-sm mb-6 leading-relaxed">{message}</p>
+        <h3 className="text-slate-800 font-semibold text-[15px] mb-2">{title}</h3>
+        <p className="text-slate-500 text-sm mb-6 leading-relaxed">{message}</p>
         <div className="flex gap-3">
           <Btn variant="secondary" size="md" className="flex-1" onClick={onClose}>Cancel</Btn>
           <Btn

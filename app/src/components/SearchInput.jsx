@@ -3,7 +3,7 @@ import { Search, X } from 'lucide-react'
 export default function SearchInput({ value, onChange, placeholder = 'Search...', className = '' }) {
   return (
     <div className={`relative ${className}`}>
-      <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#64748B]" />
+      <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500" />
       <input
         type="text"
         value={value}
@@ -14,7 +14,7 @@ export default function SearchInput({ value, onChange, placeholder = 'Search...'
       {value && (
         <button
           onClick={() => onChange('')}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#94A3B8] transition-colors"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-500 transition-colors"
         >
           <X size={13} />
         </button>

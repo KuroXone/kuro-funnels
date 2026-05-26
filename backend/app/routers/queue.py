@@ -68,10 +68,16 @@ def retry_failed(campaign_id: int = None, db: Session = Depends(get_db), current
 
     items = q.all()
     from ..workers.tasks import send_single_email
+    queued = 0
     for item in items:
         item.status = "pending"
         item.retry_count = 0
         db.commit()
-        send_single_email.delay(item.id)
+        try:
+            send_single_email.delay(item.id)
+        except Exception:
+            # Redis/Celery unavailable — run synchronously as fallback
+            send_single_email(item.id)
+        queued += 1
 
-    return {"queued": len(items)}
+    return {"queued": queued}

@@ -28,7 +28,7 @@ const EMPTY_FORM = {
 <body style="margin:0;padding:0;background:#0B1020;font-family:'Inter',sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#162033;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#162033;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,0.08);">
         <tr><td style="background:linear-gradient(135deg,#3B82F6,#8B5CF6);padding:40px;text-align:center;">
           <h1 style="color:#fff;font-size:26px;margin:0;font-weight:700;">{{headline}}</h1>
         </td></tr>
@@ -39,7 +39,7 @@ const EMPTY_FORM = {
             <a href="{{cta_url}}" style="background:#3B82F6;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:600;display:inline-block;">{{cta_text}}</a>
           </div>
         </td></tr>
-        <tr><td style="border-top:1px solid rgba(255,255,255,0.07);padding:20px 40px;text-align:center;">
+        <tr><td style="border-top:1px solid rgba(0,0,0,0.08);padding:20px 40px;text-align:center;">
           <p style="color:#64748B;font-size:12px;margin:0"><a href="{{unsubscribe_url}}" style="color:#3B82F6;text-decoration:none;">Unsubscribe</a></p>
         </td></tr>
       </table>
@@ -51,7 +51,7 @@ const EMPTY_FORM = {
 }
 
 const VARIABLES = ['{{first_name}}', '{{last_name}}', '{{email}}', '{{company_name}}', '{{headline}}', '{{body_text}}', '{{cta_text}}', '{{cta_url}}', '{{unsubscribe_url}}']
-const B = '1px solid rgba(255,255,255,0.07)'
+const B = '1px solid rgba(0,0,0,0.08)'
 
 function CatBadge({ cat }) {
   const c = CAT_COLORS[cat] || CAT_COLORS.general
@@ -71,16 +71,16 @@ function TemplateCard({ tpl, onEdit, onDuplicate, onDelete }) {
     <div
       className="flex flex-col rounded-xl overflow-hidden transition-all cursor-default"
       style={{
-        background: '#162033',
-        border: `1px solid ${hov ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.07)'}`,
-        boxShadow: hov ? '0 8px 32px rgba(0,0,0,0.4)' : '0 1px 3px rgba(0,0,0,0.3)',
+        background: '#FFFFFF',
+        border: `1px solid ${hov ? 'rgba(0,0,0,0.14)' : 'rgba(0,0,0,0.08)'}`,
+        boxShadow: hov ? '0 8px 24px rgba(0,0,0,0.12)' : 'var(--shadow-sm)',
       }}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
     >
       {/* Preview */}
       <div className="relative overflow-hidden flex-shrink-0"
-        style={{ height: 110, background: '#0B1020', borderBottom: B }}>
+        style={{ height: 110, background: '#F0F2F7', borderBottom: B }}>
         <iframe
           srcDoc={tpl.html_content}
           className="w-full border-0 pointer-events-none"
@@ -89,7 +89,7 @@ function TemplateCard({ tpl, onEdit, onDuplicate, onDelete }) {
           sandbox="allow-same-origin"
         />
         <div className="absolute inset-x-0 bottom-0 h-10"
-          style={{ background: 'linear-gradient(to bottom, transparent, #0B1020)' }} />
+          style={{ background: 'linear-gradient(to bottom, transparent, rgba(240,242,247,0.95))' }} />
         {/* Hover overlay */}
         <div
           className="absolute inset-0 flex items-center justify-center gap-2 transition-all"
@@ -102,7 +102,7 @@ function TemplateCard({ tpl, onEdit, onDuplicate, onDelete }) {
           </button>
           <button onClick={() => onDuplicate(tpl)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold"
-            style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', color: '#94A3B8' }}>
+            style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.10)', color: '#475569' }}>
             <Copy size={11} /> Copy
           </button>
         </div>
@@ -113,7 +113,7 @@ function TemplateCard({ tpl, onEdit, onDuplicate, onDelete }) {
         <div className="flex items-start gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
-              <p className="text-[#F8FAFC] font-semibold text-[13px] truncate">{tpl.name}</p>
+              <p className="text-slate-800 font-semibold text-[13px] truncate">{tpl.name}</p>
               {tpl.is_default && (
                 <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
                   style={{ background: 'rgba(59,130,246,0.15)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.25)' }}>
@@ -121,25 +121,25 @@ function TemplateCard({ tpl, onEdit, onDuplicate, onDelete }) {
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#64748B] truncate">{tpl.subject || 'No subject'}</p>
+            <p className="text-[11px] text-slate-500 truncate">{tpl.subject || 'No subject'}</p>
           </div>
           <CatBadge cat={tpl.category || 'general'} />
         </div>
 
-        <p className="text-[11px] text-[#4E637A] leading-relaxed line-clamp-2">{stripped.slice(0, 100) || 'No preview'}</p>
+        <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2">{stripped.slice(0, 100) || 'No preview'}</p>
 
-        <div className="flex items-center gap-1 pt-2 mt-auto" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="flex items-center gap-1 pt-2 mt-auto" style={{ borderTop: '1px solid rgba(0,0,0,0.05)' }}>
           <button onClick={() => onEdit(tpl)}
-            className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-[12px] font-medium transition-all text-[#64748B] hover:text-[#F8FAFC] hover:bg-white/5">
+            className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-[12px] font-medium transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-50">
             <Edit size={11} /> Edit
           </button>
           <button onClick={() => onDuplicate(tpl)}
-            className="w-7 h-7 flex items-center justify-center rounded-lg transition-all text-[#4E637A]"
+            className="w-7 h-7 flex items-center justify-center rounded-lg transition-all text-slate-400"
             onMouseEnter={(e) => { e.currentTarget.style.color = '#3B82F6'; e.currentTarget.style.background = 'rgba(59,130,246,0.1)' }}
             onMouseLeave={(e) => { e.currentTarget.style.color = '#4E637A'; e.currentTarget.style.background = 'transparent' }}
             title="Duplicate"><Copy size={12} /></button>
           <button onClick={() => onDelete(tpl.id)}
-            className="w-7 h-7 flex items-center justify-center rounded-lg transition-all text-[#4E637A]"
+            className="w-7 h-7 flex items-center justify-center rounded-lg transition-all text-slate-400"
             onMouseEnter={(e) => { e.currentTarget.style.color = '#EF4444'; e.currentTarget.style.background = 'rgba(239,68,68,0.1)' }}
             onMouseLeave={(e) => { e.currentTarget.style.color = '#4E637A'; e.currentTarget.style.background = 'transparent' }}
             title="Delete"><Trash2 size={12} /></button>
@@ -223,7 +223,7 @@ export default function Templates() {
           <SearchInput value={search} onChange={setSearch} placeholder="Search templates…" className="w-full sm:w-64" />
 
           <div className="flex items-center gap-0.5 p-1 rounded-xl flex-wrap"
-            style={{ background: '#121A2B', border: B }}>
+            style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}>
             {CATEGORIES.map((cat) => {
               const cnt = cat === 'all' ? templates.length : (catCounts[cat] || 0)
               const active = category === cat
@@ -233,7 +233,7 @@ export default function Templates() {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all capitalize whitespace-nowrap"
                   style={active
                     ? { background: cc ? cc.bg : 'rgba(59,130,246,0.12)', color: cc ? cc.text : '#3B82F6', border: `1px solid ${cc ? cc.border : 'rgba(59,130,246,0.25)'}` }
-                    : { color: '#4E637A', border: '1px solid transparent' }
+                    : { color: '#94A3B8', border: '1px solid transparent' }
                   }
                   onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = '#94A3B8' }}
                   onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = '#4E637A' }}
@@ -243,7 +243,7 @@ export default function Templates() {
                     <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold"
                       style={active
                         ? { background: cc ? cc.bg : 'rgba(59,130,246,0.2)', color: cc ? cc.text : '#3B82F6' }
-                        : { background: 'rgba(255,255,255,0.07)', color: '#64748B' }
+                        : { background: 'rgba(0,0,0,0.08)', color: '#475569' }
                       }>{cnt}</span>
                   )}
                 </button>
@@ -288,11 +288,11 @@ export default function Templates() {
           {/* Meta */}
           <div className="grid grid-cols-3 gap-3 mb-4">
             <div className="col-span-2">
-              <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">Template Name <span className="text-red-400">*</span></label>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Template Name <span className="text-red-400">*</span></label>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required placeholder="Welcome Email" className="input-base" />
             </div>
             <div>
-              <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">Category</label>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Category</label>
               <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input-base">
                 {CATEGORIES.filter((c) => c !== 'all').map((c) => (
                   <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
@@ -300,22 +300,22 @@ export default function Templates() {
               </select>
             </div>
             <div className="col-span-3">
-              <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1.5 uppercase tracking-wide">Subject Line <span className="text-red-400">*</span></label>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Subject Line <span className="text-red-400">*</span></label>
               <input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} required placeholder="{{headline}} — Don't miss this!" className="input-base" />
             </div>
           </div>
 
           {/* Variables */}
-          <div className="mb-4 p-3 rounded-xl" style={{ background: '#121A2B', border: B }}>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A] mb-2">Insert Variable</p>
+          <div className="mb-4 p-3 rounded-xl" style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.08)' }}>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2">Insert Variable</p>
             <div className="flex flex-wrap gap-1">
               {VARIABLES.map((v) => (
                 <button key={v} type="button"
                   onClick={() => setForm((f) => ({ ...f, html_content: f.html_content + v }))}
                   className="text-[11px] px-2 py-0.5 rounded font-mono transition-all"
-                  style={{ background: '#0B1020', color: '#8B5CF6', border: '1px solid rgba(139,92,246,0.2)' }}
+                  style={{ background: '#F0F2F7', color: '#8B5CF6', border: '1px solid rgba(139,92,246,0.2)' }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(139,92,246,0.1)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.4)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = '#0B1020'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.2)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#F5F7FB'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.2)' }}
                 >{v}</button>
               ))}
             </div>
@@ -323,12 +323,12 @@ export default function Templates() {
 
           {/* Editor toggle */}
           <div className="flex items-center justify-between mb-2">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4E637A]">HTML Content</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">HTML Content</p>
             <button type="button" onClick={() => setPreviewMode(!previewMode)}
               className="flex items-center gap-1.5 text-[12px] font-medium px-2.5 py-1 rounded-lg transition-all"
               style={previewMode
                 ? { color: '#3B82F6', background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.25)' }
-                : { color: '#64748B', background: 'transparent', border: '1px solid transparent' }
+                : { color: '#475569', background: 'transparent', border: '1px solid transparent' }
               }
               onMouseEnter={(e) => { if (!previewMode) e.currentTarget.style.color = '#F8FAFC' }}
               onMouseLeave={(e) => { if (!previewMode) e.currentTarget.style.color = '#64748B' }}
@@ -338,7 +338,7 @@ export default function Templates() {
           </div>
 
           {previewMode ? (
-            <div className="overflow-hidden mb-5 rounded-xl" style={{ border: B, height: 320, background: '#fff' }}>
+            <div className="overflow-hidden mb-5 rounded-xl" style={{ border: '1px solid rgba(0,0,0,0.08)', height: 320, background: '#fff' }}>
               <iframe srcDoc={form.html_content} className="w-full h-full border-0" title="Preview" sandbox="allow-same-origin" />
             </div>
           ) : (
@@ -348,9 +348,9 @@ export default function Templates() {
               rows={10}
               placeholder="<!DOCTYPE html>..."
               className="w-full rounded-xl px-4 py-3 text-xs font-mono resize-y mb-5 scrollbar-thin"
-              style={{ background: '#121A2B', border: '1px solid rgba(255,255,255,0.1)', color: '#F8FAFC', outline: 'none', minHeight: 200 }}
+              style={{ background: '#F5F7FB', border: '1px solid rgba(0,0,0,0.10)', color: '#0F172A', outline: 'none', minHeight: 200 }}
               onFocus={(e) => e.currentTarget.style.borderColor = '#3B82F6'}
-              onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'}
+              onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(0,0,0,0.10)'}
             />
           )}
 
